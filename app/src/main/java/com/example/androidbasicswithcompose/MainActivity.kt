@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +31,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ComposeArticle()
                 }
             }
         }
@@ -38,50 +38,42 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ComposeArticle (modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxSize()) {
-        HeadingBanner()
-        Heading()
-        Synopsis()
-        Content()
+fun ComposeArticle() {
+    Article(
+        title = stringResource(R.string.heading),
+        synopsis = stringResource(R.string.synopsis),
+        content = stringResource(R.string.content),
+        banner = painterResource(R.drawable.bg_compose_background))
+}
+
+@Composable
+private fun Article(
+    title: String,
+    synopsis: String,
+    content: String,
+    banner: Painter,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Image(painter = banner, contentDescription = null)
+        Text(
+            text = title,
+            fontSize = 24.sp,
+            modifier = Modifier.padding(16.dp)
+        )
+        Text(
+            text = synopsis,
+            textAlign = TextAlign.Justify,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        )
+        Text(
+            text = content,
+            textAlign = TextAlign.Justify,
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }
 
-@Composable
-fun Heading(modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(R.string.heading),
-        fontSize = 24.sp,
-        modifier = modifier.padding(16.dp)
-    )
-}
-
-@Composable
-fun Synopsis(modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(R.string.synopsis),
-        textAlign = TextAlign.Justify,
-        modifier = modifier.padding(start = 16.dp, end = 16.dp)
-    )
-}
-
-@Composable
-fun Content(modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(R.string.content),
-        textAlign = TextAlign.Justify,
-        modifier = modifier.padding(16.dp)
-    )
-}
-
-@Composable
-fun HeadingBanner(modifier: Modifier = Modifier) {
-    val image = painterResource(R.drawable.bg_compose_background)
-    Image(
-        painter = image,
-        contentDescription = null,
-    )
-}
 
 @Preview(
     showBackground = true,
