@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,11 +13,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,49 +34,47 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    CompleteScreenApp()
                 }
             }
         }
     }
 }
-
 @Composable
-fun ComposeArticle() {
-    Article(
-        title = stringResource(R.string.heading),
-        synopsis = stringResource(R.string.synopsis),
-        content = stringResource(R.string.content),
-        banner = painterResource(R.drawable.bg_compose_background))
+fun CompleteScreenApp() {
+    CompleteScreen(
+        topText = stringResource(R.string.all_tasks_complete),
+        bottomText = stringResource(R.string.nice_work),
+        image = painterResource(R.drawable.ic_task_completed))
 }
 
 @Composable
-private fun Article(
-    title: String,
-    synopsis: String,
-    content: String,
-    banner: Painter,
+private fun CompleteScreen(
+    topText: String,
+    bottomText: String,
+    image: Painter,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        Image(painter = banner, contentDescription = null)
-        Text(
-            text = title,
-            fontSize = 24.sp,
-            modifier = Modifier.padding(16.dp)
-        )
-        Text(
-            text = synopsis,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-        )
-        Text(
-            text = content,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(16.dp)
-        )
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.fillMaxSize()
+            ) {
+            Image(painter = image, contentDescription = null)
+            Text(
+                text = topText,
+                fontWeight = FontWeight.Bold,
+                modifier = modifier.padding(top = 24.dp, bottom = 8.dp)
+            )
+            Text(
+                text = bottomText,
+                fontSize = 16.sp
+            )
+
+        }
     }
 }
-
 
 @Preview(
     showBackground = true,
@@ -81,6 +82,6 @@ private fun Article(
 @Composable
 fun GreetingPreview() {
     AndroidBasicsWithComposeTheme {
-        ComposeArticle()
+        CompleteScreenApp()
     }
 }
