@@ -5,10 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -58,18 +56,18 @@ fun ComposeQuadrantsApp() {
     val bottomRightContent = stringResource(R.string.displays_column)
     val bottomRightColor = Color(0xFFF6EDFF)
     ComposeQuadrants(
-        topLeftTitle = topLeftTitle,
-        topLeftContent = topLeftContent,
-        topLeftColor = topLeftColor,
-        topRightTitle = topRightTitle,
-        topRightContent = topRightContent,
-        topRightColor = topRightColor,
-        bottomLeftTitle = bottomLeftTitle,
-        bottomLeftContent = bottomLeftContent,
-        bottomLeftColor = bottomLeftColor,
-        bottomRightTitle = bottomRightTitle,
-        bottomRightContent = bottomRightContent,
-        bottomRightColor = bottomRightColor
+        topLeftTitle,
+        topLeftContent,
+        topLeftColor,
+        topRightTitle,
+        topRightContent,
+        topRightColor,
+        bottomLeftTitle,
+        bottomLeftContent,
+        bottomLeftColor,
+        bottomRightTitle,
+        bottomRightContent,
+        bottomRightColor
     )
 }
 
@@ -89,39 +87,35 @@ private fun ComposeQuadrants(
     bottomRightColor: Color,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
+    Column(modifier.fillMaxWidth()
     ) {
-        Row(
-            modifier = modifier
-                .fillMaxHeight(0.5f)
-        ) {
-            Column(modifier = modifier.fillMaxWidth(0.5f)) {
-                Quadrant(title = topLeftTitle, content = topLeftContent, color = topLeftColor)
-            }
-            Column(modifier = modifier.fillMaxSize()) {
-                Quadrant(title = topRightTitle, content = topRightContent, color = topRightColor)
-            }
+        Row(modifier = modifier.weight(1f)) {
+            Quadrant(
+                title = topLeftTitle,
+                content = topLeftContent,
+                color = topLeftColor,
+                modifier = modifier.weight(1f)
+            )
+            Quadrant(
+                title = topRightTitle,
+                content = topRightContent,
+                color = topRightColor,
+                modifier = modifier.weight(1f)
+            )
         }
-        Row(
-            modifier = modifier
-                .fillMaxHeight()
-        ) {
-            Column(modifier = modifier.fillMaxWidth(0.5f)) {
-                Quadrant(
-                    title = bottomLeftTitle,
-                    content = bottomLeftContent,
-                    color = bottomLeftColor
-                )
-            }
-            Column(modifier = modifier.fillMaxSize()) {
-                Quadrant(
-                    title = bottomRightTitle,
-                    content = bottomRightContent,
-                    color = bottomRightColor
-                )
-            }
+        Row(Modifier.weight(1f)) {
+            Quadrant(
+                title = bottomLeftTitle,
+                content = bottomLeftContent,
+                color = bottomLeftColor,
+                modifier = modifier.weight(1f)
+            )
+            Quadrant(
+                title = bottomRightTitle,
+                content = bottomRightContent,
+                color = bottomRightColor,
+                modifier = modifier.weight(1f)
+            )
         }
     }
 }
@@ -132,32 +126,24 @@ private fun Quadrant(
     content: String,
     color: Color,
     modifier: Modifier = Modifier
-){
-    Box (
+) {
+    Column(
         modifier = modifier
-            .fillMaxSize()
             .background(color)
-            ){
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
-                .padding(16.dp)
-                .fillMaxSize()
-        ) {
-            Text(
-                text = title,
-                fontWeight = FontWeight.Bold,
-                modifier = modifier
-                    .padding(bottom = 16.dp)
-            )
-            Text(
-                text = content,
-                textAlign = TextAlign.Justify,
-                modifier = modifier
-                    .fillMaxWidth()
-            )
-        }
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = title,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        Text(
+            text = content,
+            textAlign = TextAlign.Justify,
+        )
     }
 }
 
