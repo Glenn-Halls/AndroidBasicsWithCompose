@@ -8,4 +8,8 @@
     <string name="displays_image">Creates a composable that lays out and draws a given Painter class object.</string>
     <string name="displays_row">A layout composable that places its children in a horizontal sequence.</string>
     <string name="displays_column">A layout composable that places its children in a vertical sequence.</string>
+    <string name="glenn_halls">Glenn-Halls</string>
+    <string name="ghalls_dev_gmail_com">ghalls.dev@gmail.com</string>
+    <string name="glenn_halls_name">Glenn Halls</string>
+    <string name="android_developer">Android Developer</string>
 </resources>

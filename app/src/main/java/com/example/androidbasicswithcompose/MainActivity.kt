@@ -3,12 +3,14 @@ package com.example.androidbasicswithcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -16,12 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.androidbasicswithcompose.ui.theme.AndroidBasicsWithComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ComposeQuadrantsApp()
+                    BusinessCardApp()
                 }
             }
         }
@@ -42,108 +46,108 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ComposeQuadrantsApp() {
-    val topLeftTitle = stringResource(R.string.text_composable)
-    val topLeftContent = stringResource(R.string.displays_text)
-    val topLeftColor = Color(0xFFEADDFF)
-    val topRightTitle = stringResource(R.string.image_composable)
-    val topRightContent = stringResource(R.string.displays_image)
-    val topRightColor = Color(0xFFD0BCFF)
-    val bottomLeftTitle = stringResource(R.string.row_composable)
-    val bottomLeftContent = stringResource(R.string.displays_row)
-    val bottomLeftColor = Color(0xFFB69DF8)
-    val bottomRightTitle = stringResource(R.string.column_composable)
-    val bottomRightContent = stringResource(R.string.displays_column)
-    val bottomRightColor = Color(0xFFF6EDFF)
-    ComposeQuadrants(
-        topLeftTitle,
-        topLeftContent,
-        topLeftColor,
-        topRightTitle,
-        topRightContent,
-        topRightColor,
-        bottomLeftTitle,
-        bottomLeftContent,
-        bottomLeftColor,
-        bottomRightTitle,
-        bottomRightContent,
-        bottomRightColor
+fun BusinessCardApp(){
+    MiddleInfo(
+        image = painterResource(id = R.drawable.aaa),
+        nameText = stringResource(R.string.glenn_halls_name),
+        titleText = stringResource(R.string.android_developer)
+    )
+
+    BottomInfo(
+        topIcon = painterResource(id = R.drawable.octicons_mark_github_svg),
+        topText = stringResource(R.string.glenn_halls),
+        bottomIcon = painterResource(id = R.drawable.reshot_icon_mail_gx3mtbulvf),
+        bottomText = stringResource(R.string.ghalls_dev_gmail_com)
     )
 }
 
+
 @Composable
-private fun ComposeQuadrants(
-    topLeftTitle: String,
-    topLeftContent: String,
-    topLeftColor: Color,
-    topRightTitle: String,
-    topRightContent: String,
-    topRightColor: Color,
-    bottomLeftTitle: String,
-    bottomLeftContent: String,
-    bottomLeftColor: Color,
-    bottomRightTitle: String,
-    bottomRightContent: String,
-    bottomRightColor: Color,
+private fun MiddleInfo(
+    image: Painter,
+    nameText: String,
+    titleText: String,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier.fillMaxWidth()
+    Row(
+        modifier =  modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        Row(modifier = modifier.weight(1f)) {
-            Quadrant(
-                title = topLeftTitle,
-                content = topLeftContent,
-                color = topLeftColor,
-                modifier = modifier.weight(1f)
+        Column(
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = image,
+                contentDescription = null,
+                Modifier.fillMaxWidth(0.3f),
+                alignment = Alignment.Center
             )
-            Quadrant(
-                title = topRightTitle,
-                content = topRightContent,
-                color = topRightColor,
-                modifier = modifier.weight(1f)
+            Text(
+                text = nameText,
+                modifier = modifier
+                    .padding(top = 8.dp, bottom = 4.dp),
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp
+
             )
-        }
-        Row(Modifier.weight(1f)) {
-            Quadrant(
-                title = bottomLeftTitle,
-                content = bottomLeftContent,
-                color = bottomLeftColor,
-                modifier = modifier.weight(1f)
-            )
-            Quadrant(
-                title = bottomRightTitle,
-                content = bottomRightContent,
-                color = bottomRightColor,
-                modifier = modifier.weight(1f)
+            Text(
+                text = titleText,
+                modifier = modifier,
+                fontStyle = FontStyle.Italic
             )
         }
     }
 }
 
 @Composable
-private fun Quadrant(
-    title: String,
-    content: String,
-    color: Color,
+private fun BottomInfo(
+    topIcon: Painter,
+    topText: String,
+    bottomIcon: Painter,
+    bottomText: String,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
-            .background(color)
-            .padding(16.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = title,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Text(
-            text = content,
-            textAlign = TextAlign.Justify,
-        )
+        Row(
+            modifier = modifier
+                .height(30.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = topIcon,
+                contentDescription = null
+            )
+            Spacer(modifier = modifier.padding(8.dp))
+            Text(
+                text = topText
+            )
+        }
+        Spacer(modifier = modifier.padding(4.dp))
+        Row(
+            modifier = modifier
+                .height(30.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = bottomIcon,
+                contentDescription = null
+            )
+            Spacer(modifier = modifier.padding(8.dp))
+            Text(
+                text = bottomText
+            )
+        }
     }
 }
 
@@ -153,6 +157,6 @@ private fun Quadrant(
 @Composable
 fun GreetingPreview() {
     AndroidBasicsWithComposeTheme {
-        ComposeQuadrantsApp()
+        BusinessCardApp()
     }
 }
