@@ -6,26 +6,27 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.androidbasicswithcompose.data.DataSource.topics
+import com.example.androidbasicswithcompose.model.Topic
 import com.example.androidbasicswithcompose.ui.theme.AndroidBasicsWithComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,103 +34,71 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidBasicsWithComposeTheme {
-                LemonadeStandApp()
+                TopicGrid()
             }
         }
     }
 }
 
 @Composable
-fun LemonadeStand(
-    imageId: Int,
-    descriptionId: Int,
-    stringId: Int,
-    clickAction: () -> Unit,
-    modifier: Modifier = Modifier) {
-
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-
+fun TopicGrid() {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(8.dp)
     ) {
-        Button(
-            modifier = modifier,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.LightGray
-            ),
-            shape = RoundedCornerShape(15),
-            onClick = clickAction
-        ) {
+        items(topics) {
+            TopicCard(it)
+        }
+    }
+}
+
+@Composable
+fun TopicCard(topic: Topic) {
+    Card(modifier = Modifier
+        .height(68.dp)
+    ) {
+        Row {
             Image(
-                painter = painterResource(id = imageId),
-                contentDescription = stringResource(id = descriptionId)
+                painter = painterResource(topic.topicImage),
+                contentDescription = stringResource(topic.topicName),
+                modifier = Modifier
+                    .size(68.dp)
             )
-        }
-        Spacer(modifier = modifier.size(16.dp))
-        Text(
-            modifier = modifier,
-            text = stringResource(id = stringId),
-            fontSize = 18.sp
-        )
-    }
-}
-
-@Composable
-fun LemonLogic() {
-
-    var currentStage by remember { mutableStateOf(1) }
-    var numSqueezes by remember { mutableStateOf(0) }
-
-    when (currentStage) {
-        1 -> {
-            LemonadeStand(
-                imageId = R.drawable.lemon_tree,
-                descriptionId = R.string.lemon_tree,
-                stringId = R.string.tap_lemon,
-                { currentStage++ }
-            )
-        }
-        2 -> {
-            LemonadeStand(
-                imageId = R.drawable.lemon_squeeze,
-                descriptionId = R.string.lemon,
-                stringId = R.string.keep_tapping,
-                {
-                    numSqueezes++
-                    val squeezesNeeded = (2..4).random()
-                    if (numSqueezes >= squeezesNeeded) {
-                        numSqueezes = 0
-                        currentStage++
-                    }
+            Column(modifier = Modifier
+                .padding(16.dp, 16.dp, 16.dp, 0.dp)
+            ) {
+                Text(
+                    text = stringResource(topic.topicName),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_grain),
+                        contentDescription = null,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = topic.topicNumber.toString(),
+                        style = MaterialTheme.typography.labelMedium
+                    )
                 }
-            )
-        }
-        3 -> {
-            LemonadeStand(
-                imageId = R.drawable.lemon_drink,
-                descriptionId = R.string.glass_lemonade,
-                stringId = R.string.tap_lemonade,
-                { currentStage++ }
-            )
-        }
-        4 -> {
-            LemonadeStand(
-                imageId = R.drawable.lemon_restart,
-                descriptionId = R.string.empty_glass,
-                stringId = R.string.tap_glass,
-                { currentStage = 1}
-            )
+            }
         }
     }
 }
 
-@Preview (
-    showBackground = true,
-    showSystemUi = true
-        )
+
+
+
+
 @Composable
-fun LemonadeStandApp() {
-    LemonLogic()
+@Preview(showBackground = true)
+fun TopicGridPreview() {
+    TopicGrid()
 }
