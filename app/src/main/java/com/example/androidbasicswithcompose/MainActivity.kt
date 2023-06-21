@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HeroCard(HeroesRepository.heroes[1])
+                    HeroesList(HeroesRepository.heroes)
                 }
             }
         }
@@ -33,6 +33,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     SuperheroesTheme {
-        HeroCard(HeroesRepository.heroes[1])
     }
 }

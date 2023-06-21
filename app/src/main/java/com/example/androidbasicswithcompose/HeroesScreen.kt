@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +31,21 @@ import com.example.androidbasicswithcompose.model.Hero
 import com.example.androidbasicswithcompose.model.HeroesRepository
 
 @Composable
+fun HeroesList(
+    heroes: List<Hero>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(all = 16.dp)
+    ) {
+        items(heroes) {
+            HeroCard(it)
+        }
+    }
+}
+
+@Composable
 fun HeroCard(hero: Hero,
     modifier: Modifier = Modifier
 ) {
@@ -35,6 +53,7 @@ fun HeroCard(hero: Hero,
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(2.dp),
         modifier = modifier
+            .padding(8.dp)
     ) {
         Row(
             modifier = Modifier
@@ -76,6 +95,6 @@ fun HeroCard(hero: Hero,
 @Preview
 fun Test() {
     SuperheroesTheme {
-        HeroCard(hero = HeroesRepository.heroes[1])
+        HeroesList(HeroesRepository.heroes)
     }
 }
